@@ -77,6 +77,7 @@ def generate_mac(metric):
     fi
     dscacheutil -flushcache
 
+    route add -net 10.129 -interface utun0
     route add -net 10.14 -interface utun0
     route add -net 10.11.211 -interface utun0
 
@@ -92,6 +93,7 @@ def generate_mac(metric):
     
     ODLGW=`cat /tmp/pptp_oldgw`
 
+    route delete -net 10.129 -interface utun0
     route delete -net 10.14 -interface utun0
     route delete -net 10.11.211 -interface utun0
 

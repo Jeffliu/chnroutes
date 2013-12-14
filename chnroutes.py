@@ -75,9 +75,11 @@ def generate_mac(metric):
     if [ ! -e /tmp/pptp_oldgw ]; then
         echo "${OLDGW}" > /tmp/pptp_oldgw
     fi
-    
     dscacheutil -flushcache
-    
+
+    route add -net 10.14 -interface utun0
+    route add -net 10.11.211 -interface utun0
+
     """)
     
     downscript_header=textwrap.dedent("""\
@@ -89,7 +91,10 @@ def generate_mac(metric):
     fi
     
     ODLGW=`cat /tmp/pptp_oldgw`
-    
+
+    route delete -net 10.14 -interface utun0
+    route delete -net 10.11.211 -interface utun0
+
     """)
     
     upfile=open('ip-up','w')

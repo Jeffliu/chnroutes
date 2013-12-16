@@ -78,7 +78,7 @@ def generate_mac(metric):
     dscacheutil -flushcache
 
     SPCGATE=`netstat -nr | grep '^default' | grep utun0 | awk '{print $6}'`
-    if [ $SPCGATE == "" ]; then
+    if [ "$SPCGATE" == "" ]; then
         SPCGATE=$OLDGW
     fi
     route add -net 10.129 -interface "${SPCGATE}"
@@ -98,7 +98,7 @@ def generate_mac(metric):
     ODLGW=`cat /tmp/pptp_oldgw`
 
     SPCGATE=`netstat -nr | grep '^default' | grep utun0 | awk '{print $6}'`
-    if [ $SPCGATE == "" ]; then
+    if [ "$SPCGATE" == "" ]; then
         SPCGATE=$OLDGW
     fi
 

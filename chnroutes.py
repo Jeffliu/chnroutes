@@ -77,9 +77,13 @@ def generate_mac(metric):
     fi
     dscacheutil -flushcache
 
-    route add -net 10.129 -interface utun0
-    route add -net 10.14 -interface utun0
-    route add -net 10.11.211 -interface utun0
+    SPCGATE=`netstat -nr | grep '^default' | grep utun0 | awk '{print $6}'`
+    if [ $SPCGATE == "" ]; then
+        SPCGATE=$OLDGW
+    fi
+    route add -net 10.129 -interface "${SPCGATE}"
+    route add -net 10.14 -interface "${SPCGATE}"
+    route add -net 10.11.211 -interface "${SPCGATE}"
 
     """)
     
@@ -93,9 +97,14 @@ def generate_mac(metric):
     
     ODLGW=`cat /tmp/pptp_oldgw`
 
-    route delete -net 10.129 -interface utun0
-    route delete -net 10.14 -interface utun0
-    route delete -net 10.11.211 -interface utun0
+    SPCGATE=`netstat -nr | grep '^default' | grep utun0 | awk '{print $6}'`
+    if [ $SPCGATE == "" ]; then
+        SPCGATE=$OLDGW
+    fi
+
+    route delete -net 10.129 -interface "${SPCGATE}"
+    route delete -net 10.14 -interface "${SPCGATE}"
+    route delete -net 10.11.211 -interface "${SPCGATE}"
 
     """)
     
